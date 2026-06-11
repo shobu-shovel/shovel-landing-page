@@ -130,7 +130,358 @@
             background-color: var(--bg-color-1); 
             background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.45)), url('Key visual_A.jpg');
             background-repeat: no-repeat;
-            background-position: center center;
+            /* 【修正】画像を少し下に下げる（上から40%の位置に画像中央が来るように設定。デフォルトは50%） */
+            background-position: center 40%;
+            background-size: cover; 
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 400;
+            margin-bottom: 15px;
+            color: #fff;
+            letter-spacing: 0.2em;
+            text-shadow: 0 0 30px rgba(0,0,0,0.6);
+            animation: fadeInBlur 3s ease forwards;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-bottom: 8px;
+            opacity: 0.7;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .hero .director-name {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            margin-top: 30px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* 各セクションの設定 */
+        section {
+            padding: 120px 20px;
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10; 
+        }
+
+        section h2 {
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            margin-bottom: 50px;
+            color: var(--work-color);
+            text-transform: uppercase;
+        }
+
+        /* 作品紹介 */
+        .synopsis-box {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(5px);
+        }
+
+        .synopsis-box p {
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .synopsis-box h3 {
+            font-size: 1.1rem;
+            margin: 45px 0 15px 0;
+            color: #fff;
+            font-weight: 400;
+            border-left: 2px solid var(--team-color);
+            padding-left: 15px;
+        }
+
+        /* チーム紹介（SHOVEL） */
+        .grid-team {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 30px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+        }
+        .team-member:hover {
+            transform: translateY(-5px);
+            border-color: rgba(224, 157, 37, 0.3);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .team-member .role {
+            font-size: 0.75rem;
+            opacity: 0.4;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: color 0.3s;
+        }
+        .team-member:hover .role {
+            color: var(--team-color);
+            opacity: 0.8;
+        }
+
+        .team-member .name {
+            font-size: 1.2rem;
+            color: #fff;
+            font-weight: 400;
+        }
+
+        /* ページ最下部の支援導線 */
+        .footer-support {
+            background: rgba(0, 0, 0, 0.15);
+            text-align: center;
+            padding: 100px 20px;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-support p {
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .btn-large {
+            display: inline-block;
+            background: transparent;
+            color: var(--team-color);
+            border: 1px solid var(--team-color);
+            padding: 16px 50px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border-radius: 100px;
+            letter-spacing: 0.15em;
+            transition: all 0.4s;
+        }
+
+        .btn-large:hover {
+            background: var(--team-color);
+            color: #16241b;
+            box-shadow: 0 0 25px rgba(224, 157, 37, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.75rem;
+            opacity: 0.3;
+            letter-spacing: 0.15em;
+        }
+
+        /* -----------------------------------------------------
+           演出：進行方向に向けてのんびりと「ページ全体」を彷徨う紐の幽霊
+        ----------------------------------------------------- */
+        .ghost-holder {
+            position: absolute; 
+            top: 0;
+            left: 0;
+            pointer-events: none; 
+            z-index: 50; /* テキストやボタンの邪魔をしないようにコンテンツの背後に配置 */
+            transition: left 10s ease-in-out, top 10s ease-in-out, opacity 1s;
+            opacity: 0; 
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.4));
+        }
+
+        .ghost-rotator {
+            width: 60px;
+            height: 400px;
+            transform-origin: center center; 
+            transition: transform 10s ease-in-out;
+        }
+
+        .ghost-holder svg {
+            width: 100%;
+            height: 100%;
+            transform-origin: center center;
+            animation: realWaving 8s infinite ease-in-out; 
+        }
+
+        @keyframes realWaving {
+            0%, 100% { transform: scaleX(1)   rotate(0deg)   skewY(0deg); }
+            25%      { transform: scaleX(0.8) rotate(6deg)   skewY(4deg); }
+            50%      { transform: scaleX(1.15) rotate(-4deg)  skewY(-3deg); }
+            75%      { transform: scaleX(0.75) rotate(5deg)   skewY(2deg); }
+        }
+
+        @keyframes fadeInBlur {
+            0% { opacity: 0; filter: blur(15px); transform: scale(1.03); }
+            100% { opacity: 1; filter: blur(0); transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ghost-holder" id="wandering-ghost">
+        <div class="ghost-rotator" id="ghost-rotator">
+            <svg viewBox="0 0 60 400">
+                <path d="M30,0 C60,60 0,120 30,180 C60,240 0,300 30,360 C60,420 0,480 30,540" stroke="rgba(255, 255, 255, 0.95)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            </svg>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">SHOVELはい、<strong>Public（公開）</strong>でリポジトリを作成されたため、世界中の誰でも見ることができます。
+
+チームの方、関係者の方に共有して、実際に幽霊が徘徊する姿を見てもらってください。
+
+### キービジュアルの位置を少し下げる修正
+
+現在のコードでは、キービジュアル（背景画像）が中央配置になっています。これを少し下げるように調整し、チーム紹介（木村翔武氏の追加、谷髙氏のROBOT表記削除）も反映された最新のコードを用意しました。
+
+以下のコードを丸ごとコピーして、お手元の **`index.html`** として上書き保存してください。
+
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>映画『まどろむ土』公式サイト（サンプル）</title>
+    <style>
+        /* スタイリッシュ×ポップ、そして作品世界に溶け込むSHOVELの山吹色 */
+        :root {
+            --bg-color-1: #242628;     /* 深みのあるコンクリートグレー */
+            --bg-color-2: #16241b;     /* 湿った夜の植物の緑 */
+            --text-color: #e2e5e2;
+            --work-color: #c5d7bd;     /* 作品の空気感：淡いペールグリーン */
+            --team-color: #e09d25;     /* チームカラー：高級感と柔らかさのある「山吹色」 */
+            --text-hover: #fcefd2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color-1), var(--bg-color-2), #1d1922);
+            background-attachment: fixed;
+            color: var(--text-color);
+            line-height: 1.9;
+            letter-spacing: 0.1em;
+            position: relative; /* 紐の幽霊がページ全体を飛び回るための基準線 */
+            min-height: 100vh;
+        }
+
+        /* 映画的な美しさを出すための明朝体クラス */
+        .serif-text {
+            font-family: 'Georgia', 'YuMincho', 'Yu Mincho', 'Hiragino Mincho ProN', serif;
+        }
+
+        /* 追従ヘッダー */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2000; /* 紐の幽霊より高く設定 */
+            background: rgba(36, 38, 40, 0.35);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        /* ロゴ */
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            color: #fff;
+            transition: color 0.4s;
+            cursor: default;
+        }
+        .logo:hover {
+            color: var(--team-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin-left: 35px;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--team-color);
+            opacity: 1;
+        }
+
+        /* さりげない Sound Link */
+        .sound-link {
+            font-size: 0.75rem !important;
+            opacity: 0.4 !important;
+            letter-spacing: 0.05em;
+        }
+        .sound-link:hover {
+            opacity: 0.8 !important;
+            color: var(--work-color) !important;
+        }
+
+        /* 支援ボタン */
+        .btn-support-nav {
+            border: 1px solid var(--team-color);
+            color: var(--team-color) !important;
+            padding: 6px 18px;
+            border-radius: 100px;
+            font-weight: bold;
+            opacity: 1 !important;
+            transition: all 0.4s !important;
+        }
+        .btn-support-nav:hover {
+            background: var(--team-color);
+            color: #16241b !important;
+            box-shadow: 0 0 18px rgba(224, 157, 37, 0.5);
+        }
+
+        /* メインビジュアル */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+            background-color: var(--bg-color-1); 
+            background-image: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.45)), url('Key visual_A.jpg');
+            background-repeat: no-repeat;
+            /* 【修正】画像を少し下に下げる */
+            background-position: center 40%;
             background-size: cover; 
         }
 
